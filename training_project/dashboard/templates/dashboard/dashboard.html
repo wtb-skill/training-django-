@@ -9,8 +9,16 @@
 <body>
     <div class="menu">
         <a href="/start-training">Start Training</a>
-        <a href="/edit-training">Edit Training Templates</a>
+        <a href="javascript:void(0);" id="edit-training-link">Edit Training Templates</a>
+        <div id="edit-options" class="hidden">
+            <a href="/new-training">New</a>
+            <a href="/edit-existing-training">Edit Existing</a>
+        </div>
         <a href="/view-history">View History</a>
     </div>
+    <script src="{% static 'dashboard/scripts.js' %}"></script>
 </body>
 </html>
+
+
+
