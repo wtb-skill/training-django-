@@ -2,13 +2,51 @@
 <html>
 <head>
     <title>Create Training Template</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#add-exercise-btn').click(function(event){
+                event.preventDefault();
+                var form = $('#add-exercise-form');
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function(response){
+                        if(response.success){
+                            $('#exercise-list').append('<li>' + response.exercise_name + '</li>');
+                            form[0].reset();
+                        } else {
+                            alert(response.error);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>Create Training Template</h1>
-    <form method="post">
+    <form id="training-template-form" method="post" action="{% url 'create_training_template' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>
+    </form>
+
+    <h2>Add Exercises</h2>
+    <ul id="exercise-list">
+        <!-- Existing exercises will be appended here -->
+    </ul>
+
+    <form id="add-exercise-form" method="post" action="{% url 'add_exercise' %}">
+        {% csrf_token %}
+        <select name="exercise">
+            {% for exercise in exercises %}
+                <option value="{{ exercise.id }}">{{ exercise.name }}</option>
+            {% endfor %}
+        </select>
+        <button id="add-exercise-btn">Add Exercise</button>
+        <button type="submit" name="finish">Finish Template</button>
     </form>
 </body>
 </html>
