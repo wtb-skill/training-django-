@@ -1,3 +1,12 @@
-from django.db import models
+# training_templates/models.py
 
-# Create your models here.
+from django.db import models
+from exercises.models import Exercise
+
+
+class TrainingTemplate(models.Model):
+    name = models.CharField(max_length=100)
+    exercises = models.ManyToManyField(Exercise)
+
+    def __str__(self):
+        return self.name
