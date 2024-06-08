@@ -30,7 +30,6 @@ def create_training_template(request):
     })
 
 
-
 def add_exercise(request):
     if 'training_template_id' not in request.session:
         return redirect('create_training_template')
