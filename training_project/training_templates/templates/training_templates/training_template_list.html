@@ -1,14 +1,25 @@
-<!--training_template_list.html-->
+<!-- templates/training_templates/training_template_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Training Templates</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'training_templates/styles.css' %}">
 </head>
 <body>
     <h1>Training Templates</h1>
     <ul>
         {% for template in templates %}
-            <li><pre>{{ template }}</pre></li>
+            <li>
+                <span>{{ template.name }}</span>
+                <div>
+                    <a href="{% url 'edit_template' template.id %}" class="button edit-button">Edit</a>
+                    <form method="post" action="{% url 'delete_template' template.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button delete-button">Delete</button>
+                    </form>
+                </div>
+            </li>
         {% endfor %}
     </ul>
 </body>

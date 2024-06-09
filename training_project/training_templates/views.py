@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import TrainingTemplate
 from .forms import TrainingTemplateForm, AddExerciseForm
@@ -56,3 +56,21 @@ def finish_template(request):
 def training_template_list(request):
     templates = TrainingTemplate.objects.all()
     return render(request, 'training_templates/training_template_list.html', {'templates': templates})
+
+
+def edit_template(request, template_id):
+    template = get_object_or_404(TrainingTemplate, id=template_id)
+    if request.method == 'POST':
+        form = TrainingTemplateForm(request.POST, instance=template)
+        if form.is_valid():
+            form.save()
+            return redirect('training_template_list')
+    else:
+        form = TrainingTemplateForm(instance=template)
+    return render(request, 'training_templates/edit_template.html', {'form': form})
+
+
+def delete_template(request, template_id):
+    template = get_object_or_404(TrainingTemplate, id=template_id)
+    template.delete()
+    return redirect('training_template_list')
