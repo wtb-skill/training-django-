@@ -13,7 +13,7 @@
             <li>
                 <span>{{ template.name }}</span>
                 <div>
-                    <a href="{% url 'edit_template' template.id %}" class="button edit-button">Edit</a>
+                    <a href="{% url 'edit_training_template' template.id %}" class="button edit-button">Edit</a>
                     <form method="post" action="{% url 'delete_template' template.id %}" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="button delete-button">Delete</button>

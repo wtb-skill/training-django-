@@ -7,8 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'training_templates/styles.css' %}">
 </head>
 <body>
-    <h1>Create Training Template</h1>
-    <form method="post" action="{% url 'create_training_template' %}">
+    <h1>{% if template_id %}Edit{% else %}Create{% endif %} Training Template</h1>
+    <form method="post" action="{% if template_id %}{% url 'edit_training_template' template_id=template_id %}
+    {% else %}{% url 'create_training_template' %}{% endif %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>
@@ -36,11 +37,12 @@
         </form>
     {% endif %}
 
-    {% if request.session.training_template_id %}
-        <form method="post" action="{% url 'finish_template' %}">
-            {% csrf_token %}
-            <button type="submit">Finish Template</button>
-        </form>
+    {% if request.session.template_id %}
+    <form method="post" action="{% url 'finish_template' %}">
+        {% csrf_token %}
+        <button type="submit">Finish Template</button>
+    </form>
     {% endif %}
+
 </body>
 </html>

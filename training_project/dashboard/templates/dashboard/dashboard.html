@@ -12,7 +12,7 @@
         <a href="/start-training">Start Training</a>
         <a href="javascript:void(0);" id="edit-training-link">Edit Training Templates</a>
         <div id="edit-options" class="hidden">
-            <a href="training-templates/create/">New</a>
+            <a href="{% url 'create_training_template' %}">New</a>
             <a href="{% url 'training_template_list' %}">Edit Existing</a>
         </div>
         <a href="/view-history">View History</a>
