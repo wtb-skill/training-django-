@@ -1,4 +1,3 @@
-<!-- templates/training_templates/create_training_template.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +16,8 @@
     {% if template_id and selected_exercises %}
         <h2>Selected Exercises</h2>
         <ul>
-            {% for exercise in selected_exercises %}
-                <li>{{ exercise.name }}</li>
+            {% for exercise_order in selected_exercises %}
+                <li>{{ exercise_order.exercise.name }}</li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -44,4 +43,3 @@
     {% endif %}
 </body>
 </html>
-

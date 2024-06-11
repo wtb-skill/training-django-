@@ -9,13 +9,13 @@
 <body>
     <h1>Training Templates</h1>
     <ul>
-        {% for template in templates %}
+        {% for template, exercises_in_order in template_exercises %}
             <li>
                 <div>
                     <strong>{{ template.name }}</strong>
                     <ul>
-                        {% for exercise in template.exercises.all %}
-                            <li>{{ exercise.name }}</li>
+                        {% for exercise_order in exercises_in_order %}
+                            <li>{{ exercise_order.exercise.name }}</li>
                         {% endfor %}
                     </ul>
                 </div>
