@@ -17,7 +17,13 @@
         <h2>Selected Exercises</h2>
         <ul>
             {% for exercise_order in selected_exercises %}
-                <li>{{ exercise_order.exercise.name }}</li>
+                <li>
+                    {{ exercise_order.exercise.name }}
+                    <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}

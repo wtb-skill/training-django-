@@ -55,6 +55,20 @@ def add_exercise(request, template_id):
     })
 
 
+def delete_exercise(request, template_id, exercise_id):
+    training_template = get_object_or_404(TrainingTemplate, id=template_id)
+    exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template, exercise_id=exercise_id)
+    exercise_order.delete()
+
+    # Reorder the remaining exercises
+    remaining_exercises = ExerciseOrder.objects.filter(training_template=training_template).order_by('order')
+    for index, exercise_order in enumerate(remaining_exercises):
+        exercise_order.order = index + 1
+        exercise_order.save()
+
+    return redirect('edit_training_template', template_id=template_id)
+
+
 def finish_template(request):
     return redirect('training_template_list')
 
