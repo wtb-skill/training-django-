@@ -25,4 +25,4 @@ class Exercise(models.Model):
         return self.main_body_part.name
 
     class Meta:
-        ordering = ['main_body_part', 'name']  # Specify ordering by the main body part and then by name
+        ordering = ['name']  # Specify ordering by name
