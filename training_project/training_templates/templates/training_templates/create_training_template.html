@@ -8,14 +8,13 @@
 </head>
 <body>
     <h1>{% if template_id %}Edit{% else %}Create{% endif %} Training Template</h1>
-    <form method="post" action="{% if template_id %}{% url 'edit_training_template' template_id=template_id %}
-    {% else %}{% url 'create_training_template' %}{% endif %}">
+    <form method="post" action="{% if template_id %}{% url 'edit_training_template' template_id=template_id %}{% else %}{% url 'create_training_template' %}{% endif %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>
     </form>
 
-    {% if selected_exercises %}
+    {% if template_id and selected_exercises %}
         <h2>Selected Exercises</h2>
         <ul>
             {% for exercise in selected_exercises %}
@@ -24,9 +23,9 @@
         </ul>
     {% endif %}
 
-    {% if exercises %}
+    {% if template_id and exercises %}
         <h2>Add Exercises</h2>
-        <form method="post" action="{% url 'add_exercise' %}">
+        <form method="post" action="{% url 'add_exercise' template_id=template_id %}">
             {% csrf_token %}
             <select name="exercise">
                 {% for exercise in exercises %}
@@ -38,11 +37,11 @@
     {% endif %}
 
     {% if request.session.template_id %}
-    <form method="post" action="{% url 'finish_template' %}">
-        {% csrf_token %}
-        <button type="submit">Finish Template</button>
-    </form>
+        <form method="post" action="{% url 'finish_template' %}">
+            {% csrf_token %}
+            <button type="submit">Finish Template</button>
+        </form>
     {% endif %}
-
 </body>
 </html>
+

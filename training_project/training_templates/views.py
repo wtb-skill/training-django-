@@ -33,29 +33,25 @@ def create_or_edit_training_template(request, template_id=None):
     })
 
 
-def add_exercise(request):
-    template_id = request.session.get('template_id')
+def add_exercise(request, template_id):
+    training_template = get_object_or_404(TrainingTemplate, id=template_id)
     print(f"[add_exercise] template_id = {template_id}")  # debug
-    if template_id:
-        training_template = get_object_or_404(TrainingTemplate, id=template_id)
 
-        if request.method == 'POST':
-            form = AddExerciseForm(request.POST)
-            if form.is_valid():
-                exercise = form.cleaned_data['exercise']
-                training_template.exercises.add(exercise)
-                training_template.save()
-                return redirect('edit_training_template', template_id=template_id)
-        else:
-            # If it's not a POST request, create a new form instance
-            form = AddExerciseForm()
+    if request.method == 'POST':
+        form = AddExerciseForm(request.POST)
+        if form.is_valid():
+            exercise = form.cleaned_data['exercise']
+            training_template.exercises.add(exercise)
+            training_template.save()
+            return redirect('edit_training_template', template_id=template_id)
+    else:
+        form = AddExerciseForm()
 
-        # Render the template with the correct training template and form data
-        return render(request, 'training_templates/create_training_template.html', {
-            'form': form,
-            'selected_exercises': training_template.exercises.all(),
-            'template_id': template_id,
-        })
+    return render(request, 'training_templates/create_training_template.html', {
+        'form': form,
+        'selected_exercises': training_template.exercises.all(),
+        'template_id': template_id,
+    })
 
 
 def finish_template(request):
