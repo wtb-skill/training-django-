@@ -11,7 +11,14 @@
     <ul>
         {% for template in templates %}
             <li>
-                <span>{{ template.name }}</span>
+                <div>
+                    <strong>{{ template.name }}</strong>
+                    <ul>
+                        {% for exercise in template.exercises.all %}
+                            <li>{{ exercise.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 <div>
                     <a href="{% url 'edit_training_template' template.id %}" class="button edit-button">Edit</a>
                     <form method="post" action="{% url 'delete_template' template.id %}" style="display:inline;">
