@@ -4,7 +4,7 @@
 <head>
     <title>Create Training Template</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'training_templates/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'training_templates/styles-2.css' %}">
 </head>
 <body>
     <h1>{% if template_id %}Edit{% else %}Create{% endif %} Training Template</h1>
@@ -19,11 +19,13 @@
         <ul>
             {% for exercise_order in selected_exercises %}
                 <li>
-                    {{ exercise_order.exercise.name }}
-                    <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
+                    <div class="exercise-container">
+                        <span>{{ exercise_order.exercise.name }}</span>
+                        <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="trashcan-btn">🗑️</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

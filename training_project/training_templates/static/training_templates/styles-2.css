@@ -1,0 +1,8 @@
+.exercise-container {
+    display: inline-flex;
+    align-items: center;
+}
+
+.trashcan-btn {
+    margin-left: 5px; /* Adjust margin as needed */
+}
