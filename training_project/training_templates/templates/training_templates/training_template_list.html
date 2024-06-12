@@ -1,4 +1,3 @@
-<!-- templates/training_templates/training_template_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +6,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'training_templates/styles.css' %}">
 </head>
 <body>
-    <h1>Training Templates</h1>
+    <div class="header">
+        <h1>Training Templates</h1>
+        <a href="/" class="dashboard-link">Dashboard</a>
+    </div>
     <ul>
         {% for template, exercises_in_order in template_exercises %}
-            <li>
+            <li class="list-item">
                 <div>
                     <strong>{{ template.name }}</strong>
                     <ul>

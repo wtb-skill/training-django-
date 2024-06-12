@@ -1,5 +1,29 @@
-/* static/training_templates/styles.css */
+/* Header styling */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
 
+.header h1 {
+    margin: 0;
+}
+
+.header .dashboard-link {
+    text-decoration: none;
+    color: #000;
+    font-size: 1.2em;
+    background-color: #ccc;  /* Add grey background */
+    padding: 5px 10px;  /* Add some padding for better appearance */
+    border-radius: 4px;  /* Optional: add rounded corners */
+}
+
+.header .dashboard-link:hover {
+    background-color: #aaa;  /* Change background color on hover */
+}
+
+/* Button styling */
 .button {
     margin-left: 10px;
     padding: 5px 10px;
@@ -7,13 +31,26 @@
     color: white;
     cursor: pointer;
 }
+
 .edit-button {
     background-color: green;
+    text-decoration: none; /* Remove underline */
 }
+
+.edit-button:hover {
+    background-color: #4CAF50; /* Dark green shade on hover */
+}
+
 .delete-button {
     background-color: red;
 }
-li {
+
+.delete-button:hover {
+    background-color: #f44336; /* Dark red shade on hover */
+}
+
+/* List item styling */
+.list-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
