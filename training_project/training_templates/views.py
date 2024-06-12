@@ -23,12 +23,16 @@ def create_or_edit_training_template(request, template_id=None):
     else:
         form = TrainingTemplateForm(instance=training_template)
 
-    exercises = Exercise.objects.all()
+    selected_exercise_ids = ExerciseOrder.objects.filter(training_template=training_template).values_list('exercise_id',
+                                                                                                          flat=True)
+    available_exercises = Exercise.objects.exclude(id__in=selected_exercise_ids)
+    # exercises = Exercise.objects.all()
+
     selected_exercises = ExerciseOrder.objects.filter(training_template=training_template).order_by('order') if training_template else []
 
     return render(request, 'training_templates/create_training_template.html', {
         'form': form,
-        'exercises': exercises,
+        'exercises': available_exercises,
         'selected_exercises': selected_exercises,
         'template_id': template_id,
     })
@@ -38,19 +42,28 @@ def add_exercise(request, template_id):
     training_template = get_object_or_404(TrainingTemplate, id=template_id)
     print(f"[add_exercise] template_id = {template_id}")  # debug
 
+    selected_exercise_ids = ExerciseOrder.objects.filter(training_template=training_template).values_list('exercise_id',
+                                                                                                          flat=True)
+    available_exercises = Exercise.objects.exclude(id__in=selected_exercise_ids)
+    print("Number of available exercises:", available_exercises.count())  # debug
+
     if request.method == 'POST':
-        form = AddExerciseForm(request.POST)
+        form = AddExerciseForm(request.POST, available_exercises=available_exercises)
         if form.is_valid():
             exercise = form.cleaned_data['exercise']
-            last_order = ExerciseOrder.objects.filter(training_template=training_template).aggregate(models.Max('order'))['order__max'] or 0
+
+            last_order = \
+            ExerciseOrder.objects.filter(training_template=training_template).aggregate(models.Max('order'))[
+                'order__max'] or 0
             ExerciseOrder.objects.create(training_template=training_template, exercise=exercise, order=last_order + 1)
             return redirect('edit_training_template', template_id=template_id)
     else:
-        form = AddExerciseForm()
+        form = AddExerciseForm(available_exercises=available_exercises)
 
     return render(request, 'training_templates/create_training_template.html', {
         'form': form,
-        'selected_exercises': training_template.exercises.all(),
+        'selected_exercises': ExerciseOrder.objects.filter(training_template=training_template).order_by('order'),
+        'exercises': available_exercises,  # Pass available_exercises to the template
         'template_id': template_id,
     })
 
