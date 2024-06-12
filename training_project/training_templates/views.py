@@ -6,6 +6,15 @@ from .forms import TrainingTemplateForm, AddExerciseForm
 from exercises.models import Exercise
 
 
+def get_exercises(training_template):
+    selected_exercise_ids = ExerciseOrder.objects.filter(training_template=training_template).\
+        values_list('exercise_id', flat=True)
+    available_exercises = Exercise.objects.exclude(id__in=selected_exercise_ids)
+    selected_exercises = ExerciseOrder.objects.filter(training_template=training_template).order_by('order') \
+        if training_template else []
+    return available_exercises, selected_exercises
+
+
 def create_or_edit_training_template(request, template_id=None):
     if template_id:
         training_template = get_object_or_404(TrainingTemplate, id=template_id)
@@ -23,12 +32,7 @@ def create_or_edit_training_template(request, template_id=None):
     else:
         form = TrainingTemplateForm(instance=training_template)
 
-    selected_exercise_ids = ExerciseOrder.objects.filter(training_template=training_template).values_list('exercise_id',
-                                                                                                          flat=True)
-    available_exercises = Exercise.objects.exclude(id__in=selected_exercise_ids)
-    # exercises = Exercise.objects.all()
-
-    selected_exercises = ExerciseOrder.objects.filter(training_template=training_template).order_by('order') if training_template else []
+    available_exercises, selected_exercises = get_exercises(training_template)
 
     return render(request, 'training_templates/create_training_template.html', {
         'form': form,
@@ -42,9 +46,7 @@ def add_exercise(request, template_id):
     training_template = get_object_or_404(TrainingTemplate, id=template_id)
     print(f"[add_exercise] template_id = {template_id}")  # debug
 
-    selected_exercise_ids = ExerciseOrder.objects.filter(training_template=training_template).values_list('exercise_id',
-                                                                                                          flat=True)
-    available_exercises = Exercise.objects.exclude(id__in=selected_exercise_ids)
+    available_exercises, selected_exercises = get_exercises(training_template)
     print("Number of available exercises:", available_exercises.count())  # debug
 
     if request.method == 'POST':
@@ -62,7 +64,7 @@ def add_exercise(request, template_id):
 
     return render(request, 'training_templates/create_training_template.html', {
         'form': form,
-        'selected_exercises': ExerciseOrder.objects.filter(training_template=training_template).order_by('order'),
+        'selected_exercises': selected_exercises,
         'exercises': available_exercises,  # Pass available_exercises to the template
         'template_id': template_id,
     })
