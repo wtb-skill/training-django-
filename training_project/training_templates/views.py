@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db import models
+from django.db.models import F
 from .models import TrainingTemplate, ExerciseOrder
 from .forms import TrainingTemplateForm, AddExerciseForm
 from exercises.models import Exercise
@@ -80,6 +81,38 @@ def delete_exercise(request, template_id, exercise_id):
     for index, exercise_order in enumerate(remaining_exercises):
         exercise_order.order = index + 1
         exercise_order.save()
+
+    return redirect('edit_training_template', template_id=template_id)
+
+
+def move_up_exercise(request, template_id, exercise_id):
+    training_template = get_object_or_404(TrainingTemplate, id=template_id)
+    current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template, exercise_id=exercise_id)
+
+    # Get the exercise order above the current exercise
+    exercise_above = ExerciseOrder.objects.filter(training_template=training_template, order=current_exercise_order.order - 1).first()
+
+    if exercise_above:
+        # Swap the orders using F expressions to update the database atomically
+        current_exercise_order.order, exercise_above.order = exercise_above.order, current_exercise_order.order
+        current_exercise_order.save()
+        exercise_above.save()
+
+    return redirect('edit_training_template', template_id=template_id)
+
+
+def move_down_exercise(request, template_id, exercise_id):
+    training_template = get_object_or_404(TrainingTemplate, id=template_id)
+    current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template, exercise_id=exercise_id)
+
+    # Get the exercise order below the current exercise
+    exercise_below = ExerciseOrder.objects.filter(training_template=training_template, order=current_exercise_order.order + 1).first()
+
+    if exercise_below:
+        # Swap the orders using F expressions to update the database atomically
+        current_exercise_order.order, exercise_below.order = exercise_below.order, current_exercise_order.order
+        current_exercise_order.save()
+        exercise_below.save()
 
     return redirect('edit_training_template', template_id=template_id)
 

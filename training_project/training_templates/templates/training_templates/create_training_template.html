@@ -21,6 +21,14 @@
                 <li>
                     <div class="exercise-container">
                         <span>{{ exercise_order.exercise.name }}</span>
+                        <form method="post" action="{% url 'move_up_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="arrow-btn">⬆️</button>
+                        </form>
+                        <form method="post" action="{% url 'move_down_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="arrow-btn">⬇️</button>
+                        </form>
                         <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="trashcan-btn">🗑️</button>
