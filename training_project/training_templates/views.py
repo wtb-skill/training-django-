@@ -87,10 +87,12 @@ def delete_exercise(request, template_id, exercise_id):
 
 def move_up_exercise(request, template_id, exercise_id):
     training_template = get_object_or_404(TrainingTemplate, id=template_id)
-    current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template, exercise_id=exercise_id)
+    current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template,
+                                               exercise_id=exercise_id)
 
     # Get the exercise order above the current exercise
-    exercise_above = ExerciseOrder.objects.filter(training_template=training_template, order=current_exercise_order.order - 1).first()
+    exercise_above = ExerciseOrder.objects.filter(training_template=training_template,
+                                                  order=current_exercise_order.order - 1).first()
 
     if exercise_above:
         # Swap the orders using F expressions to update the database atomically
@@ -103,10 +105,12 @@ def move_up_exercise(request, template_id, exercise_id):
 
 def move_down_exercise(request, template_id, exercise_id):
     training_template = get_object_or_404(TrainingTemplate, id=template_id)
-    current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template, exercise_id=exercise_id)
+    current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template,
+                                               exercise_id=exercise_id)
 
     # Get the exercise order below the current exercise
-    exercise_below = ExerciseOrder.objects.filter(training_template=training_template, order=current_exercise_order.order + 1).first()
+    exercise_below = ExerciseOrder.objects.filter(training_template=training_template,
+                                                  order=current_exercise_order.order + 1).first()
 
     if exercise_below:
         # Swap the orders using F expressions to update the database atomically
@@ -123,7 +127,8 @@ def finish_template(request):
 
 def training_template_list(request):
     templates = TrainingTemplate.objects.all()
-    template_exercises = [(template, ExerciseOrder.objects.filter(training_template=template).order_by('order')) for template in templates]
+    template_exercises = [(template, ExerciseOrder.objects.filter(training_template=template).order_by('order'))
+                          for template in templates]
     return render(request, 'training_templates/training_template_list.html', {'template_exercises': template_exercises})
 
 
