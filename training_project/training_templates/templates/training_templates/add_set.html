@@ -1,0 +1,11 @@
+<!-- templates/training_templates/add_set.html -->
+<div id="add-set-modal-{{ exercise_order.id }}" style="display: none;">
+    <h2>Add Set</h2>
+    <form method="post" action="{% url 'edit_training_template' template_id=template_id %}" style="display:inline;">
+        {% csrf_token %}
+        {{ set_form.as_p }}
+        <input type="hidden" name="exercise_order_id" value="{{ exercise_order.id }}">
+        <button type="submit" name="set_form">Add Set</button>
+    </form>
+</div>
+

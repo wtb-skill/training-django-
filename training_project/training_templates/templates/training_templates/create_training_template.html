@@ -21,6 +21,11 @@
                 <li>
                     <div class="exercise-container">
                         <span>{{ exercise_order.exercise.name }}</span>
+                        <ul>
+                        {% for set in exercise_order.sets.all %}
+                            <li>{{ set.set_type }} - {{ set.reps }} x {{ set.weight }}</li>
+                        {% endfor %}
+                        </ul>
                         <form method="post" action="{% url 'move_up_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="arrow-btn">⬆️</button>
@@ -34,6 +39,13 @@
                             <button type="submit" class="trashcan-btn">🗑️</button>
                         </form>
                     </div>
+                    <h2>Add Set</h2>
+                    <form method="post" action="{% url 'edit_training_template' template_id=template_id %}" style="display:inline;">
+                        {% csrf_token %}
+                        {{ set_form.as_p }}
+                        <input type="hidden" name="exercise_order_id" value="{{ exercise_order.id }}">
+                        <button type="submit" name="set_form">Add Set</button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>
@@ -52,11 +64,11 @@
         </form>
     {% endif %}
 
-    {% if request.session.template_id %}
-        <form method="post" action="{% url 'finish_template' %}">
-            {% csrf_token %}
-            <button type="submit">Finish Template</button>
-        </form>
-    {% endif %}
+<!--    {% if request.session.template_id %}-->
+    <form method="post" action="{% url 'finish_template' %}">
+        {% csrf_token %}
+        <button type="submit" class="finish-btn">Finish Template</button>
+    </form>
+<!--    {% endif %}-->
 </body>
 </html>

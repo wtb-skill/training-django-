@@ -1,5 +1,5 @@
 from django import forms
-from .models import TrainingTemplate
+from .models import TrainingTemplate, Set
 from exercises.models import Exercise
 
 
@@ -18,5 +18,8 @@ class AddExerciseForm(forms.Form):
     exercise = forms.ModelChoiceField(queryset=Exercise.objects.none())
 
 
-# class AddExerciseForm(forms.Form):
-#     exercise = forms.ModelChoiceField(queryset=Exercise.objects.all())
+class SetForm(forms.ModelForm):
+    class Meta:
+        model = Set
+        fields = ['set_type', 'weight', 'reps']
+
