@@ -136,3 +136,18 @@ def delete_template(request, template_id):
     template = get_object_or_404(TrainingTemplate, id=template_id)
     template.delete()
     return redirect('training_template_list')
+
+
+# def add_set(request, exercise_order_id):
+#     exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
+#     if request.method == 'POST':
+#         form = SetForm(request.POST)
+#         if form.is_valid():
+#             set_instance = form.save(commit=False)
+#             set_instance.exercise_order = exercise_order
+#             set_instance.save()
+#             return redirect('edit_training_template', template_id=exercise_order.training_template.id)
+#     else:
+#         form = SetForm()
+#
+#     return render(request, 'training_templates/add_set.html', {'form': form, 'exercise_order': exercise_order})
