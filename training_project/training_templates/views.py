@@ -19,28 +19,41 @@ def get_exercises(training_template):
 def create_or_edit_training_template(request, template_id=None):
     if template_id:
         training_template = get_object_or_404(TrainingTemplate, id=template_id)
-        print(f"template_id = {template_id}")  # debug
     else:
         training_template = None
-        print("No template_id.")  # debug
+
+    form = TrainingTemplateForm(instance=training_template)
+    set_form = SetForm()
 
     if request.method == 'POST':
-        form = TrainingTemplateForm(request.POST, instance=training_template)
-        if form.is_valid():
-            training_template = form.save()
-            request.session['template_id'] = training_template.id
-            return redirect('edit_training_template', template_id=training_template.id)
+        if 'change-name' in request.POST:
+            form = TrainingTemplateForm(request.POST, instance=training_template)
+            if form.is_valid():
+                training_template = form.save()
+                return redirect('edit_training_template', template_id=training_template.id)
+        elif 'set_form' in request.POST:
+            exercise_order_id = request.POST.get('exercise_order_id')
+            exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
+            set_form = SetForm(request.POST)
+            if set_form.is_valid():
+                set_instance = set_form.save(commit=False)
+                set_instance.exercise_order = exercise_order
+                set_instance.save()
+                return redirect('edit_training_template', template_id=training_template.id)
     else:
         form = TrainingTemplateForm(instance=training_template)
+        set_form = SetForm()
 
     available_exercises, selected_exercises = get_exercises(training_template)
 
     return render(request, 'training_templates/create_training_template.html', {
         'form': form,
+        'set_form': set_form,
         'exercises': available_exercises,
         'selected_exercises': selected_exercises,
         'template_id': template_id,
     })
+
 
 
 def add_exercise(request, template_id):
@@ -138,16 +151,17 @@ def delete_template(request, template_id):
     return redirect('training_template_list')
 
 
-def add_set(request, exercise_order_id):
-    exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
-    if request.method == 'POST':
-        form = SetForm(request.POST)
-        if form.is_valid():
-            set_instance = form.save(commit=False)
-            set_instance.exercise_order = exercise_order
-            set_instance.save()
-            return redirect('edit_training_template', template_id=exercise_order.training_template.id)
-    else:
-        form = SetForm()
-
-    return render(request, 'training_templates/add_set.html', {'form': form, 'exercise_order': exercise_order})
+#
+# def add_set(request, exercise_order_id):
+#     exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
+#     if request.method == 'POST':
+#         form = SetForm(request.POST)
+#         if form.is_valid():
+#             set_instance = form.save(commit=False)
+#             set_instance.exercise_order = exercise_order
+#             set_instance.save()
+#             return redirect('edit_training_template', template_id=exercise_order.training_template.id)
+#     else:
+#         form = SetForm()
+#
+#     return render(request, 'training_templates/add_set.html', {'form': form, 'exercise_order': exercise_order})
