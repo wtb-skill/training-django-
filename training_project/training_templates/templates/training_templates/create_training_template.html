@@ -11,7 +11,7 @@
     <form method="post" action="{% if template_id %}{% url 'edit_training_template' template_id=template_id %}{% else %}{% url 'create_training_template' %}{% endif %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="change-name">Save</button>
+        <button type="submit" name="name-form">Save</button>
     </form>
 
     {% if template_id and selected_exercises %}

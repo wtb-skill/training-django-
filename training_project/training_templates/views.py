@@ -26,7 +26,7 @@ def create_or_edit_training_template(request, template_id=None):
     set_form = SetForm()
 
     if request.method == 'POST':
-        if 'change-name' in request.POST:
+        if 'name-form' in request.POST:
             form = TrainingTemplateForm(request.POST, instance=training_template)
             if form.is_valid():
                 training_template = form.save()
