@@ -1,0 +1,42 @@
+{% if selected_exercises %}
+    <h2>Selected Exercises</h2>
+    <ul>
+        {% for exercise_order in selected_exercises %}
+            <li>
+                <div class="exercise-container">
+                    <div class="exercise-header">
+                        <span class="exercise-name">{{ exercise_order.exercise.name }}</span>
+                        <div class="control-icons">
+                            <form method="post" action="{% url 'move_up_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="arrow-btn">⬆️</button>
+                            </form>
+                            <form method="post" action="{% url 'move_down_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="arrow-btn">⬇️</button>
+                            </form>
+                            <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="trashcan-btn">🗑️</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sets-list">
+                        <ul>
+                        {% for set in exercise_order.sets.all %}
+                            <li>{{ set.set_type }} - {{ set.reps }} x {{ set.weight }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <h2>Add Set</h2>
+                <form method="post" action="{% url 'edit_training_template' template_id=template_id %}" style="display:inline;">
+                    {% csrf_token %}
+                    {{ set_form.as_p }}
+                    <input type="hidden" name="exercise_order_id" value="{{ exercise_order.id }}">
+                    <button type="submit" name="set_form">Add Set</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

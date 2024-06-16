@@ -1,8 +1,44 @@
 .exercise-container {
-    display: inline-flex;
-    align-items: center;
+    margin-bottom: 20px;
 }
 
-.trashcan-btn {
-    margin-left: 5px; /* Adjust margin as needed */
+.exercise-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.exercise-name {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.control-icons {
+    display: flex;
+    gap: 5px;
+}
+
+.sets-list {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.sets-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sets-list li {
+    margin-bottom: 5px;
+}
+
+.arrow-btn, .trashcan-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.arrow-btn:hover, .trashcan-btn:hover {
+    color: #007BFF;
 }

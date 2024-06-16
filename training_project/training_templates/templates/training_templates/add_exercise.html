@@ -1,0 +1,12 @@
+{% if exercises %}
+    <h2>Add Exercises</h2>
+    <form method="post" action="{% url 'add_exercise' template_id=template_id %}">
+        {% csrf_token %}
+        <select name="exercise">
+            {% for exercise in exercises %}
+                <option value="{{ exercise.id }}">{{ exercise.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Add Exercise</button>
+    </form>
+{% endif %}
