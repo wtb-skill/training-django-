@@ -52,11 +52,12 @@
         </form>
     {% endif %}
 
-    {% if request.session.template_id %}
-        <form method="post" action="{% url 'finish_template' %}">
-            {% csrf_token %}
-            <button type="submit">Finish Template</button>
-        </form>
-    {% endif %}
+<!--    {% if request.session.template_id %}-->
+<!--    <form method="post" action="{% url 'finish_template' %}">-->
+<!--        {% csrf_token %}-->
+<!--        <button type="submit">Finish Template</button>-->
+<!--    </form>-->
+<!--    {% endif %}-->
+    <a href="{% url 'training_template_list' %}">Finish</a>
 </body>
 </html>
