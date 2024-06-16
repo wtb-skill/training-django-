@@ -22,3 +22,15 @@ class ExerciseOrder(models.Model):
     class Meta:
         ordering = ['order']
 
+
+class Set(models.Model):
+    exercise_order = models.ForeignKey(ExerciseOrder, related_name='sets', on_delete=models.CASCADE)
+    set_type = models.CharField(max_length=50)  # e.g., warmup, 1, 2, ...
+    weight = models.FloatField()
+    reps = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.set_type} - {self.reps} x {self.weight}"
+    
+
+
