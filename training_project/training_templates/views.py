@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db import models
 from django.db.models import F
-from .models import TrainingTemplate, ExerciseOrder
+from .models import TrainingTemplate, ExerciseOrder, Set
 from .forms import TrainingTemplateForm, AddExerciseForm, SetForm
 from exercises.models import Exercise
 
@@ -16,6 +16,8 @@ def get_exercises(training_template):
     return available_exercises, selected_exercises
 
 
+from django.http import JsonResponse
+
 def create_or_edit_training_template(request, template_id=None):
     if template_id:
         training_template = get_object_or_404(TrainingTemplate, id=template_id)
@@ -26,12 +28,7 @@ def create_or_edit_training_template(request, template_id=None):
     set_form = SetForm()
 
     if request.method == 'POST':
-        if 'name-form' in request.POST:
-            form = TrainingTemplateForm(request.POST, instance=training_template)
-            if form.is_valid():
-                training_template = form.save()
-                return redirect('edit_training_template', template_id=training_template.id)
-        elif 'set_form' in request.POST:
+        if 'add-set-form' in request.POST:
             exercise_order_id = request.POST.get('exercise_order_id')
             exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
             set_form = SetForm(request.POST)
@@ -39,10 +36,20 @@ def create_or_edit_training_template(request, template_id=None):
                 set_instance = set_form.save(commit=False)
                 set_instance.exercise_order = exercise_order
                 set_instance.save()
+                return redirect('edit_training_template', template_id=template_id)
+        elif 'edit-set-form' in request.POST:
+            set_id = request.POST.get('set_id')
+            set_instance = get_object_or_404(Set, pk=set_id)
+            set_instance.set_type = request.POST.get('set_type')
+            set_instance.reps = request.POST.get('reps')
+            set_instance.weight = request.POST.get('weight')
+            set_instance.save()
+
+        elif 'name-form' in request.POST:
+            form = TrainingTemplateForm(request.POST, instance=training_template)
+            if form.is_valid():
+                training_template = form.save()
                 return redirect('edit_training_template', template_id=training_template.id)
-    else:
-        form = TrainingTemplateForm(instance=training_template)
-        set_form = SetForm()
 
     available_exercises, selected_exercises = get_exercises(training_template)
 
@@ -53,6 +60,7 @@ def create_or_edit_training_template(request, template_id=None):
         'selected_exercises': selected_exercises,
         'template_id': template_id,
     })
+
 
 
 

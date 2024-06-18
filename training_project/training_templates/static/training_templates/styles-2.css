@@ -42,3 +42,38 @@
 .arrow-btn:hover, .trashcan-btn:hover {
     color: #007BFF;
 }
+
+.add-set-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.add-set-form input {
+    width: 100px;
+}
+
+.add-set-form button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.add-set-form button:hover {
+    color: #007BFF;
+}
+
+.edit-set-form input[type="text"] {
+    width: 55px;
+    padding: 2px; /* Optional: Adjust padding as needed */
+    font-size: 14px; /* Optional: Adjust font size as needed */
+    text-align: center;
+}
+
+.edit-set-form input[type="number"] {
+    width: 70px;
+    padding: 2px; /* Optional: Adjust padding as needed */
+    font-size: 14px; /* Optional: Adjust font size as needed */
+    text-align: center;
+}
