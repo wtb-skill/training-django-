@@ -1,57 +1,54 @@
 {% if selected_exercises %}
-        <h2>Selected Exercises</h2>
-        <ul>
-            {% for exercise_order in selected_exercises %}
-                <li>
-                    <div class="exercise-container">
-                        <div class="exercise-header">
-                            <span class="exercise-name">{{ exercise_order.exercise.name }}</span>
-                            <div class="control-icons">
-                                <form method="post" action="{% url 'move_up_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="arrow-btn">⬆️</button>
-                                </form>
-                                <form method="post" action="{% url 'move_down_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="arrow-btn">⬇️</button>
-                                </form>
-                                <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="trashcan-btn">🗑️</button>
-                                </form>
-                            </div>
+    <h2>Selected Exercises</h2>
+    <ul>
+        {% for exercise_order in selected_exercises %}
+            <li>
+                <div class="exercise-container">
+                    <div class="exercise-header">
+                        <span class="exercise-name">{{ exercise_order.exercise.name }}</span>
+                        <div class="control-icons">
+                            <form method="post" action="{% url 'move_up_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="arrow-btn">⬆️</button>
+                            </form>
+                            <form method="post" action="{% url 'move_down_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="arrow-btn">⬇️</button>
+                            </form>
+                            <form method="post" action="{% url 'delete_exercise' template_id=template_id exercise_id=exercise_order.exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="trashcan-btn">🗑️</button>
+                            </form>
                         </div>
-                        <div class="sets-list">
-                            <ul>
+                    </div>
+                    <div class="sets-list">
+                        <ul>
                             {% for set in exercise_order.sets.all %}
                                 <li>
-                                    <form method="post" action="{% url 'edit_training_template' template_id=template_id %}" class="edit-set-form">
+                                    <form method="post" class="edit-set-form">
                                         {% csrf_token %}
-                                        <input type="hidden" name="edit-set-form" value="true">
+                                        <input type="hidden" name="edit-set" value="true">
                                         <input type="hidden" name="set_id" value="{{ set.id }}">
                                         <input type="text" name="set_type" value="{{ set.set_type }}" required>
                                         <input type="number" name="reps" value="{{ set.reps }}" required>
                                         <input type="number" name="weight" value="{{ set.weight }}" required>
-                                        <button type="submit">✔️</button>
+                                        <button type="submit" name="edit-set-form">✔️</button>
                                     </form>
                                 </li>
                             {% endfor %}
-                            </ul>
-                        </div>
-                        <button class="add-set-btn" data-exercise-order-id="{{ exercise_order.id }}">Add Set</button>
-                        <div class="add-set-form-container" id="add-set-form-{{ exercise_order.id }}" style="display:none;">
-                            <form method="post" action="{% url 'edit_training_template' template_id=template_id %}" class="add-set-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="add-set-form" value="true">
-                                <input type="hidden" name="exercise_order_id" value="{{ exercise_order.id }}">
-                                <input type="text" name="set_type" placeholder="Type" required>
-                                <input type="number" name="reps" placeholder="Reps" required>
-                                <input type="number" name="weight" placeholder="Weight" required>
-                                <button type="submit">✔️</button>
-                            </form>
-                        </div>
+                        </ul>
                     </div>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                    <div class="add-set-form-container" id="add-set-form-{{ exercise_order.id }}">
+                        <form method="post" action="{% url 'edit_training_template' template_id=template_id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="add-set" value="true">
+                            <input type="hidden" name="exercise_order_id" value="{{ exercise_order.id }}">
+                            <button type="submit" name="add-set-form">Add Set</button>
+                            <button type="submit" name="add-warmup-set-form">Add Warmup Set</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db import models
 from django.db.models import F
-from .models import TrainingTemplate, ExerciseOrder, Set
+from .models import TrainingTemplate, ExerciseOrder, Set, SetType
 from .forms import TrainingTemplateForm, AddExerciseForm, SetForm
 from exercises.models import Exercise
 
@@ -16,8 +16,6 @@ def get_exercises(training_template):
     return available_exercises, selected_exercises
 
 
-from django.http import JsonResponse
-
 def create_or_edit_training_template(request, template_id=None):
     if template_id:
         training_template = get_object_or_404(TrainingTemplate, id=template_id)
@@ -30,20 +28,39 @@ def create_or_edit_training_template(request, template_id=None):
     if request.method == 'POST':
         if 'add-set-form' in request.POST:
             exercise_order_id = request.POST.get('exercise_order_id')
-            exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
-            set_form = SetForm(request.POST)
-            if set_form.is_valid():
-                set_instance = set_form.save(commit=False)
-                set_instance.exercise_order = exercise_order
-                set_instance.save()
-                return redirect('edit_training_template', template_id=template_id)
+            exercise_order = ExerciseOrder.objects.get(pk=exercise_order_id)
+
+            # Debug print
+            print(f"[DEBUG] Adding new set to exercise_order_id: {exercise_order_id}")
+
+            # Use create_empty method to create a new set
+            new_set = Set.create_empty(exercise_order)
+
+            # Debug print
+            print(f"[DEBUG] New set created: {new_set}")
+
+            return redirect('edit_training_template', template_id=template_id)
+        elif 'add-warmup-set-form' in request.POST:
+            exercise_order_id = request.POST.get('exercise_order_id')
+            exercise_order = ExerciseOrder.objects.get(pk=exercise_order_id)
+
+            new_warmup_set = Set.create_warmup(exercise_order)
+
+            # Debug print
+            print(f"[DEBUG] New set created: {new_warmup_set}")
+            return redirect('edit_training_template', template_id=template_id)
         elif 'edit-set-form' in request.POST:
             set_id = request.POST.get('set_id')
             set_instance = get_object_or_404(Set, pk=set_id)
+
+            # Debug print
+            print(f"[DEBUG] Editing set id: {set_id}")
+
             set_instance.set_type = request.POST.get('set_type')
             set_instance.reps = request.POST.get('reps')
             set_instance.weight = request.POST.get('weight')
             set_instance.save()
+            return redirect('edit_training_template', template_id=template_id)
 
         elif 'name-form' in request.POST:
             form = TrainingTemplateForm(request.POST, instance=training_template)
@@ -60,8 +77,6 @@ def create_or_edit_training_template(request, template_id=None):
         'selected_exercises': selected_exercises,
         'template_id': template_id,
     })
-
-
 
 
 def add_exercise(request, template_id):
@@ -159,17 +174,3 @@ def delete_template(request, template_id):
     return redirect('training_template_list')
 
 
-#
-# def add_set(request, exercise_order_id):
-#     exercise_order = get_object_or_404(ExerciseOrder, id=exercise_order_id)
-#     if request.method == 'POST':
-#         form = SetForm(request.POST)
-#         if form.is_valid():
-#             set_instance = form.save(commit=False)
-#             set_instance.exercise_order = exercise_order
-#             set_instance.save()
-#             return redirect('edit_training_template', template_id=exercise_order.training_template.id)
-#     else:
-#         form = SetForm()
-#
-#     return render(request, 'training_templates/add_set.html', {'form': form, 'exercise_order': exercise_order})
