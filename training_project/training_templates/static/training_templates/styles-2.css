@@ -1,40 +1,49 @@
+/* Exercise container */
 .exercise-container {
     margin-bottom: 20px;
 }
 
+/* Exercise header */
 .exercise-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+/* Exercise name */
 .exercise-name {
     flex-grow: 1;
     margin-right: 10px;
 }
 
+/* Control icons container */
 .control-icons {
     display: flex;
-    align-items: center; /* Adjusted to align items vertically */
-    gap: 5px;
+    align-items: center;
+    gap: 5px; /* Adjust spacing between icon buttons */
 }
 
+/* Set legend and edit set form container */
 .set-legend, .edit-set-form {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     max-width: 250px; /* Adjust this value to match the form width */
+    gap: 10px; /* Adjust gap between legend items and inputs */
 }
 
+/* Set legend item and set type display */
 .set-legend-item, .set-type-display {
-    width: 100px; /* Adjust as needed to align with the input fields */
+    width: 70px; /* Adjust as needed to align with the input fields */
     text-align: center;
+    margin-top: 5px;
 }
 
+/* Sets list container */
 .sets-list {
-    margin-top: 10px;
-    margin-left: 20px;
+    margin-top: 0px;
+    margin-left: 0px;
 }
 
 .sets-list ul {
@@ -44,9 +53,10 @@
 }
 
 .sets-list li {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
+/* Arrow button, trashcan button, set trashcan button */
 .arrow-btn, .trashcan-btn, .set-trashcan-btn {
     background: none;
     border: none;
@@ -55,8 +65,8 @@
     align-items: center; /* Align icon and text vertically */
 }
 
+/* Set trashcan button */
 .set-trashcan-btn {
-    margin-left: auto; /* Push the trashcan button to the right */
     background: none;
     border: none;
     cursor: pointer;
@@ -64,48 +74,45 @@
     align-items: center; /* Align icon and text vertically */
     color: #6c757d; /* Adjust color as needed */
     font-size: 1.2em; /* Adjust font size as needed */
+    margin-left: 5px; /* Add a margin between buttons */
 }
 
+/* Hover effect for buttons */
 .arrow-btn:hover, .trashcan-btn:hover, .set-trashcan-btn:hover {
-    color: #007BFF;
+    color: #007BFF; /* Adjust hover color as needed */
 }
 
+/* Add set form container */
 .add-set-form {
     display: flex;
-    gap: 10px;
     margin-top: 10px;
 }
 
 .add-set-form input {
-    width: 100px;
+    width: 100px; /* Adjust input width as needed */
 }
 
 .add-set-form button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.2em; /* Adjust font size as needed */
 }
 
 .add-set-form button:hover {
-    color: #007BFF;
+    color: #007BFF; /* Adjust hover color as needed */
 }
 
+/* Edit set form */
 .edit-set-form {
     display: flex;
     align-items: center;
-    gap: 20px; /* Adjust the gap to your preference */
     width: 100%;
     max-width: 300px; /* Adjust this value to match the legend width */
 }
 
-.set-type-display {
-    min-width: 55px; /* Set a fixed width if needed */
-    text-align: center;
-}
-
-.edit-set-form input[type="number"] {
-    width: 70px;
+.edit-set-form input[type="number"], span.set-type-display{
+    width: 70px; /* Adjust input width as needed */
     padding: 2px; /* Optional: Adjust padding as needed */
     font-size: 14px; /* Optional: Adjust font size as needed */
     text-align: center;
@@ -116,17 +123,19 @@
     padding: 2px 6px; /* Adjust padding as needed */
 }
 
-.set-trashcan-btn {
-    margin-left: auto; /* Push the trashcan button to the right */
-    background: none;
-    border: none;
-    cursor: pointer;
+/* Set trashcan button container */
+.set-trashcan-btn-container {
     display: flex;
-    align-items: center; /* Align icon and text vertically */
-    color: #6c757d; /* Adjust color as needed */
-    font-size: 1.2em; /* Adjust font size as needed */
+    align-items: center;
 }
 
+/* Hover effect for set trashcan button */
 .set-trashcan-btn:hover {
     color: #dc3545; /* Adjust hover color as needed */
+}
+
+/* Set line */
+.set-line {
+    display: flex;
+    align-items: center;
 }

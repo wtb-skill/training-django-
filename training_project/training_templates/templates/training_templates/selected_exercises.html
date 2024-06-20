@@ -31,25 +31,29 @@
                             <ul>
                                 {% for set in exercise_order.sets.all %}
                                     <li>
-                                        <div class="set-form-container">
-                                            <form method="post" class="edit-set-form">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="edit-set" value="true">
-                                                <input type="hidden" name="set_id" value="{{ set.id }}">
-                                                <span class="set-type-display">{{ set.set_type }}</span>
-                                                <input type="number" name="reps" value="{{ set.reps }}" required>
-                                                <input type="number" name="weight" value="{{ set.weight }}" required>
-                                                <button type="submit" name="edit-set-form">✔️</button>
-                                                <form method="post" action="{% url 'delete_set' template_id=template_id set_id=set.id %}" class="set-trashcan-btn">
-                                                {% csrf_token %}
-                                                <button type="submit" class="set-trashcan-btn">🗑️</button>
+                                        <div class="set-line">
+                                            <div class="set-form-container">
+                                                <form method="post" class="edit-set-form">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="edit-set" value="true">
+                                                    <input type="hidden" name="set_id" value="{{ set.id }}">
+                                                    <span class="set-type-display">{{ set.set_type }}</span>
+                                                    <input type="number" name="reps" value="{{ set.reps }}" required>
+                                                    <input type="number" name="weight" value="{{ set.weight }}" required>
+                                                    <button type="submit" name="edit-set-form">✔️</button>
                                                 </form>
-                                            </form>
-
+                                            </div>
+                                            <div class="set-trashcan-btn-container">
+                                                <form method="post" action="{% url 'delete_set' template_id=template_id set_id=set.id %}" class="set-trashcan-btn">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="set-trashcan-btn">🗑️</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </li>
                                 {% endfor %}
                             </ul>
+
                         </div>
                     </div>
                     <div class="add-set-form-container" id="add-set-form-{{ exercise_order.id }}">

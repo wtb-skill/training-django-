@@ -124,6 +124,7 @@ def delete_exercise(request, template_id, exercise_id):
 def delete_set(request, template_id, set_id):
     set_instance = get_object_or_404(Set, pk=set_id)
     exercise_order = set_instance.exercise_order
+    print("Delete set")  # debug
     set_instance.delete()
 
     # Reorder the remaining sets
