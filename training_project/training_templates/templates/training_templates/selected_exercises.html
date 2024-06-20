@@ -25,7 +25,7 @@
                         <ul>
                             {% for set in exercise_order.sets.all %}
                                 <li>
-                                    <form method="post" class="edit-set-form" style="display:inline;>
+                                    <form method="post" class="edit-set-form" style="display:inline;">
                                         {% csrf_token %}
                                         <input type="hidden" name="edit-set" value="true">
                                         <input type="hidden" name="set_id" value="{{ set.id }}">

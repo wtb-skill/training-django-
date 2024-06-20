@@ -56,7 +56,7 @@ def create_or_edit_training_template(request, template_id=None):
             # Debug print
             print(f"[DEBUG] Editing set id: {set_id}")
 
-            set_instance.set_type = request.POST.get('set_type')
+            # set_instance.set_type = request.POST.get('set_type')
             set_instance.reps = request.POST.get('reps')
             set_instance.weight = request.POST.get('weight')
             set_instance.save()
