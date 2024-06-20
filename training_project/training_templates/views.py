@@ -121,6 +121,29 @@ def delete_exercise(request, template_id, exercise_id):
     return redirect('edit_training_template', template_id=template_id)
 
 
+def delete_set(request, template_id, set_id):
+    set_instance = get_object_or_404(Set, pk=set_id)
+    exercise_order = set_instance.exercise_order
+    set_instance.delete()
+
+    # Reorder the remaining sets
+    remaining_sets = Set.objects.filter(exercise_order=exercise_order).order_by('set_type')
+    if SetType.is_warm_up(set_instance.set_type):
+        # If the deleted set was a warm-up, reorder only the warm-ups
+        warm_up_sets = remaining_sets.filter(set_type=SetType.WARM_UP)
+        for index, warmup_set in enumerate(warm_up_sets):
+            warmup_set.set_type = SetType.WARM_UP
+            warmup_set.save()
+    else:
+        # If the deleted set was numbered, reorder the numbered sets
+        numbered_sets = remaining_sets.filter(set_type__regex=r'^\d+$')
+        for index, numbered_set in enumerate(numbered_sets):
+            numbered_set.set_type = str(index + 1)
+            numbered_set.save()
+
+    return redirect('edit_training_template', template_id=template_id)
+
+
 def move_up_exercise(request, template_id, exercise_id):
     training_template = get_object_or_404(TrainingTemplate, id=template_id)
     current_exercise_order = get_object_or_404(ExerciseOrder, training_template=training_template,

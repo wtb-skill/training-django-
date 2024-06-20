@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import create_or_edit_training_template, add_exercise, delete_exercise, finish_template, \
-    training_template_list, delete_template, move_up_exercise, move_down_exercise
+    training_template_list, delete_template, move_up_exercise, move_down_exercise, delete_set
 
 urlpatterns = [
     path('create/', create_or_edit_training_template, name='create_training_template'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('finish/', finish_template, name='finish_template'),
     path('', training_template_list, name='training_template_list'),
     path('delete/<int:template_id>/', delete_template, name='delete_template'),
+    path('delete/<int:template_id>/<int:set_id>/', delete_set, name='delete_set'),
 ]
