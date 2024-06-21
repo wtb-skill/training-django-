@@ -1,6 +1,11 @@
 /* Exercise container */
 .exercise-container {
     margin-bottom: 20px;
+    border: 2px solid #ccc; /* Add a border to frame each exercise */
+    border-radius: 8px; /* Optional: Rounded corners */
+    padding: 15px; /* Add padding inside the border */
+    background-color: #f9f9f9; /* Optional: Light background color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
 }
 
 /* Exercise header */
@@ -8,12 +13,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 10px; /* Add margin between header and sets */
 }
 
 /* Exercise name */
 .exercise-name {
     flex-grow: 1;
     margin-right: 10px;
+    font-weight: bold; /* Optional: Bold font for exercise name */
 }
 
 /* Control icons container */
@@ -31,19 +38,19 @@
     width: 100%;
     max-width: 250px; /* Adjust this value to match the form width */
     gap: 10px; /* Adjust gap between legend items and inputs */
+    margin-bottom: 10px; /* Add margin between legend and sets list */
 }
 
 /* Set legend item and set type display */
 .set-legend-item, .set-type-display {
-    width: 70px; /* Adjust as needed to align with the input fields */
+    width: 100px; /* Adjust as needed to align with the input fields */
     text-align: center;
-    margin-top: 5px;
 }
 
 /* Sets list container */
 .sets-list {
-    margin-top: 0px;
-    margin-left: 0px;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 .sets-list ul {
@@ -53,7 +60,7 @@
 }
 
 .sets-list li {
-    margin-bottom: 0px;
+    margin-bottom: 5px;
 }
 
 /* Arrow button, trashcan button, set trashcan button */
@@ -111,8 +118,8 @@
     max-width: 300px; /* Adjust this value to match the legend width */
 }
 
-.edit-set-form input[type="number"], span.set-type-display{
-    width: 70px; /* Adjust input width as needed */
+.edit-set-form input[type="number"] {
+    width: 80px; /* Adjust input width as needed */
     padding: 2px; /* Optional: Adjust padding as needed */
     font-size: 14px; /* Optional: Adjust font size as needed */
     text-align: center;
