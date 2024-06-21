@@ -1,9 +1,7 @@
-/* styles.css */
-
 body {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center;  /* Center items horizontally */
+    align-items: center;      /* Center items vertically */
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
@@ -11,12 +9,12 @@ body {
 
 .menu {
     text-align: center;
-    position: relative; /* Add relative positioning */
+    position: relative;
 }
 
 .menu a {
-    display: block; /* Change display property to block */
-    margin: 10px 0; /* Adjust margin as needed */
+    display: block;
+    margin: 10px 0;
     padding: 10px 20px;
     text-decoration: none;
     color: white;
@@ -32,17 +30,25 @@ body {
     display: none;
 }
 
-#edit-options {
-    position: absolute; /* Set position to absolute */
+#edit-options, #training-templates {
+    position: absolute;
     top: 0;
-    left: calc(100% + 20px); /* Move to the right of the parent container */
-    margin-top: 50px; /* Adjust margin as needed */
+    left: calc(100% + 20px);
+
 }
 
-#edit-options a {
-    display: block; /* Change display property to block */
-    width: 100%; /* Ensure full width */
-    margin-bottom: 5px; /* Add margin between links */
+#edit-options {
+    margin-top: 50px;
+}
+
+#training-templates {
+    margin-top: -50px; /* Adjust this value to control how high on the screen the templates start */
+}
+
+#edit-options a, #training-templates a {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
     padding: 10px 20px;
     text-decoration: none;
     color: white;
@@ -50,6 +56,7 @@ body {
     border-radius: 5px;
 }
 
-#edit-options a:hover {
+#edit-options a:hover, #training-templates a:hover {
     background-color: #218838;
 }
+

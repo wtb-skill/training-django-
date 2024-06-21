@@ -9,7 +9,10 @@
 </head>
 <body>
     <div class="menu">
-        <a href="/start-training">Start Training</a>
+        <a href="javascript:void(0);" id="start-training-link">Start Training</a>
+        <div id="training-templates" class="hidden">
+        <!-- The training templates will be dynamically inserted here -->
+        </div>
         <a href="javascript:void(0);" id="edit-training-link">Edit Training Templates</a>
         <div id="edit-options" class="hidden">
             <a href="{% url 'create_training_template' %}">New</a>
@@ -17,6 +20,9 @@
         </div>
         <a href="/view-history">View History</a>
     </div>
+
     <script src="{% static 'dashboard/scripts.js' %}"></script>
 </body>
 </html>
+
+
