@@ -1,3 +1,8 @@
-from django.contrib import admin
+# training_session/admin.py
 
-# Register your models here.
+from django.contrib import admin
+from .models import TrainingSession, SessionExercise, SessionSet
+
+admin.site.register(TrainingSession)
+admin.site.register(SessionExercise)
+admin.site.register(SessionSet)

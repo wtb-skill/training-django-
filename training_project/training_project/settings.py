@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'dashboard',
     'exercises',
     'training_templates',
+    'training_sessions',
 ]
 
 MIDDLEWARE = [

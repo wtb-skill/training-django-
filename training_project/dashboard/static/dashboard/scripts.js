@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 trainingTemplatesContainer.innerHTML = '';
                 data.templates.forEach(template => {
                     const templateLink = document.createElement('a');
+                    // Modify the href attribute to point to a different URL structure
                     templateLink.href = `/start-training/${template.id}`;
                     templateLink.textContent = template.name;
                     trainingTemplatesContainer.appendChild(templateLink);
