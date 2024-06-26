@@ -7,14 +7,13 @@ from exercises.models import Exercise
 
 
 class TrainingSession(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     template = models.ForeignKey(TrainingTemplate, on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username} - {self.template.name} - {self.start_time}"
+        return f"{self.template.name} - {self.start_time}"
 
 
 class SessionExercise(models.Model):
