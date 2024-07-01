@@ -12,18 +12,33 @@
     <h2>{{ training_template.name }}</h2>
     <div id="timer">0h 0m 0s</div>
 
-    {% for item in exercises_with_sets %}
-        <div class="exercise">
-            <h3>{{ item.exercise_order.exercise.name }}</h3>
-            <ul>
-                {% for set in item.sets %}
-                    <li>
-                        {{ set.set_type }} - {{ set.reps }} reps - {{ set.weight }} kg
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+    <form method="post" action="{% url 'process_training_session' session_id %}">
+        {% csrf_token %}
+        {% for item in exercises_with_sets %}
+            <div class="exercise">
+                <h3>{{ item.exercise_order.exercise.name }}</h3>
+                <ul>
+                    {% for set in item.sets %}
+                        <li>
+                            <label>
+                                Set Type: {{ set.set_type }}
+                            </label>
+                            <label>
+                                Reps:
+                                <input type="number" name="set_{{ set.id }}_reps" value="{{ set.reps }}">
+                            </label>
+                            <label>
+                                Weight:
+                                <input type="number" step="0.01" name="set_{{ set.id }}_weight" value="{{ set.weight }}">
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+        <button type="submit">Finish Training</button>
+    </form>
+
     <script src="{% static 'training_sessions/scripts.js' %}"></script>
 </body>
 </html>
