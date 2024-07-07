@@ -58,9 +58,23 @@ class ProcessTrainingSessionView(View):
                 session_set.weight = float(value)
                 session_set.save()
 
+        # # Mark the session as completed and set the end time
+        # training_session.is_completed = True
+        # training_session.end_time = timezone.now()
+        # training_session.save()
+
+        return redirect('/')
+
+
+class FinishTrainingSessionView(View):
+    def post(self, request, *args, **kwargs):
+        session_id = kwargs.get('session_id')
+        training_session = get_object_or_404(TrainingSession, pk=session_id)
+
         # Mark the session as completed and set the end time
         training_session.is_completed = True
         training_session.end_time = timezone.now()
         training_session.save()
 
         return redirect('/')
+
