@@ -46,17 +46,17 @@ class ProcessTrainingSessionView(View):
         session_id = kwargs.get('session_id')
         training_session = get_object_or_404(TrainingSession, pk=session_id)
 
-        for key, value in request.POST.items():
-            if key.startswith('set_') and key.endswith('_reps'):
-                set_id = key.split('_')[1]
-                session_set = get_object_or_404(SessionSet, pk=set_id)
-                session_set.reps = int(value)
-                session_set.save()
-            elif key.startswith('set_') and key.endswith('_weight'):
-                set_id = key.split('_')[1]
-                session_set = get_object_or_404(SessionSet, pk=set_id)
-                session_set.weight = float(value)
-                session_set.save()
+        # for key, value in request.POST.items():
+        #     if key.startswith('set_') and key.endswith('_reps'):
+        #         set_id = key.split('_')[1]
+        #         session_set = get_object_or_404(SessionSet, pk=set_id)
+        #         session_set.reps = int(value)
+        #         session_set.save()
+        #     elif key.startswith('set_') and key.endswith('_weight'):
+        #         set_id = key.split('_')[1]
+        #         session_set = get_object_or_404(SessionSet, pk=set_id)
+        #         session_set.weight = float(value)
+        #         session_set.save()
 
         # # Mark the session as completed and set the end time
         # training_session.is_completed = True
@@ -70,6 +70,18 @@ class FinishTrainingSessionView(View):
     def post(self, request, *args, **kwargs):
         session_id = kwargs.get('session_id')
         training_session = get_object_or_404(TrainingSession, pk=session_id)
+
+        for key, value in request.POST.items():
+            if key.startswith('set_') and key.endswith('_reps'):
+                set_id = key.split('_')[1]
+                session_set = get_object_or_404(SessionSet, pk=set_id)
+                session_set.reps = int(value)
+                session_set.save()
+            elif key.startswith('set_') and key.endswith('_weight'):
+                set_id = key.split('_')[1]
+                session_set = get_object_or_404(SessionSet, pk=set_id)
+                session_set.weight = float(value)
+                session_set.save()
 
         # Mark the session as completed and set the end time
         training_session.is_completed = True
