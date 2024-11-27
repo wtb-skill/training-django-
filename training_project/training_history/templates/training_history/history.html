@@ -21,6 +21,26 @@
                     {% endif %}
                     Completed: {{ session.is_completed|yesno:"Yes,No" }}<br>
 
+                    <!-- Session Length -->
+                    {% if session.duration %}
+                        Session Length:
+                        {% if session.hours %}
+                            {{ session.hours }} hour{% if session.hours != 1 %}s{% endif %}
+                        {% endif %}
+
+                        {% if session.minutes %}
+                            {{ session.minutes }} minute{% if session.minutes != 1 %}s{% endif %}
+                        {% endif %}
+
+                        {% if session.seconds %}
+                            {{ session.seconds }} second{% if session.seconds != 1 %}s{% endif %}
+                        {% endif %}
+                        <br>
+                    {% else %}
+                        Session Length: Not available<br>
+                    {% endif %}
+
+
                     <!-- Optionally, list exercises -->
                     {% for session_exercise in session.session_exercises.all %}
                         <ul>
