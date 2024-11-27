@@ -18,7 +18,7 @@
             <a href="{% url 'create_training_template' %}">New</a>
             <a href="{% url 'training_template_list' %}">Edit Existing</a>
         </div>
-        <a href="/view-history">View History</a>
+        <a href="{% url 'training_session_history' %}">View History</a>
     </div>
 
     <script src="{% static 'dashboard/scripts.js' %}"></script>

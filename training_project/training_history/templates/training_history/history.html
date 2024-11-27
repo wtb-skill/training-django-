@@ -1,0 +1,47 @@
+<!-- training_history/history.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Session History</title>
+</head>
+<body>
+    <h1>Training Session History</h1>
+
+    {% if training_sessions %}
+        <ul>
+            {% for session in training_sessions %}
+                <li>
+                    <strong>{{ session.template.name }}</strong><br>
+                    Start Time: {{ session.start_time|date:"M d, Y H:i" }}<br>
+                    {% if session.end_time %}
+                        End Time: {{ session.end_time|date:"M d, Y H:i" }}<br>
+                    {% endif %}
+                    Completed: {{ session.is_completed|yesno:"Yes,No" }}<br>
+
+                    <!-- Optionally, list exercises -->
+                    {% for session_exercise in session.session_exercises.all %}
+                        <ul>
+                            <li>
+                                Exercise: {{ session_exercise.exercise.name }} - Completed: {{ session_exercise.is_completed|yesno:"Yes,No" }}
+                                <!-- Optionally, list sets -->
+                                <ul>
+                                    {% for session_set in session_exercise.session_sets.all %}
+                                        <li>
+                                            Set Type: {{ session_set.set_type }} | Reps: {{ session_set.reps }} | Weight: {{ session_set.weight }} kg | Completed: {{ session_set.is_completed|yesno:"Yes,No" }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No training sessions recorded yet.</p>
+    {% endif %}
+</body>
+</html>
