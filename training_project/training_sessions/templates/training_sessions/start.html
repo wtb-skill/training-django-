@@ -31,9 +31,10 @@
                                 <input type="number" step="0.01" name="set_{{ set.id }}_weight" value="{{ set.weight }}">
                             </label>
                             <label>
-                                <input type="checkbox" class="set-completed-checkbox" data-set-id="{{ set.id }}"
-                                       {% if set.is_completed %}checked{% endif %}>
-
+                                <input type="checkbox" class="set-completed-checkbox"
+                               data-set-id="{{ set.id }}"
+                               data-url="{% url 'mark_set_completed' %}"
+                               {% if set.is_completed %}checked{% endif %}>
                                 Completed
                             </label>
                         </li>
