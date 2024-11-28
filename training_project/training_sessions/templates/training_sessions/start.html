@@ -6,7 +6,6 @@
     <title>Start Training Session</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'training_sessions/styles.css' %}">
-
 </head>
 <body>
     <h2>{{ training_template.name }}</h2>
@@ -31,6 +30,12 @@
                                 Weight:
                                 <input type="number" step="0.01" name="set_{{ set.id }}_weight" value="{{ set.weight }}">
                             </label>
+                            <label>
+                                <input type="checkbox" class="set-completed-checkbox" data-set-id="{{ set.id }}"
+                                       {% if set.is_completed %}checked{% endif %}>
+
+                                Completed
+                            </label>
                         </li>
                     {% endfor %}
                 </ul>
@@ -39,6 +44,7 @@
         <button type="submit">Finish Training</button>
     </form>
 
+    <!-- Include external JS -->
     <script src="{% static 'training_sessions/scripts.js' %}"></script>
 </body>
 </html>

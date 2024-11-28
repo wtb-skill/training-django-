@@ -5,6 +5,9 @@ from django.utils import timezone
 from django.urls import reverse
 from .models import TrainingSession, SessionExercise, SessionSet
 from training_templates.models import TrainingTemplate, ExerciseOrder, Set
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 class StartTrainingSessionView(View):
@@ -89,4 +92,27 @@ class FinishTrainingSessionView(View):
         training_session.save()
 
         return redirect('/')
+
+
+@csrf_exempt
+def mark_set_completed(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print(data)  # Debug incoming data
+            set_id = data.get('set_id')
+            is_completed = data.get('is_completed')
+
+            session_set = SessionSet.objects.get(id=set_id)
+            session_set.is_completed = is_completed
+            session_set.save()
+
+            print(session_set)  # Debug the saved instance
+
+            return JsonResponse({'success': True})
+        except (SessionSet.DoesNotExist, KeyError, ValueError) as e:
+            print(e)  # Debug error
+            return JsonResponse({'success': False, 'error': 'Invalid data.'}, status=400)
+    return JsonResponse({'success': False, 'error': 'Invalid request method.'}, status=405)
+
 
