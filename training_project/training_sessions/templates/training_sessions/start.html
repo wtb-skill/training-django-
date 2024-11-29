@@ -32,9 +32,10 @@
                             </label>
                             <label>
                                 <input type="checkbox" class="set-completed-checkbox"
-                               data-set-id="{{ set.id }}"
-                               data-url="{% url 'mark_set_completed' %}"
-                               {% if set.is_completed %}checked{% endif %}>
+                                   data-set-id="{{ set.id }}"
+                                   data-url="{% url 'mark_set_completed' %}"
+                                   name="set_{{ set.id }}_completed"
+                                   {% if set.is_completed %}checked{% endif %}>
                                 Completed
                             </label>
                         </li>

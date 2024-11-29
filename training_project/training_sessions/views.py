@@ -74,6 +74,7 @@ class FinishTrainingSessionView(View):
         session_id = kwargs.get('session_id')
         training_session = get_object_or_404(TrainingSession, pk=session_id)
 
+        # Update sets with the data from the form
         for key, value in request.POST.items():
             if key.startswith('set_') and key.endswith('_reps'):
                 set_id = key.split('_')[1]
@@ -86,12 +87,29 @@ class FinishTrainingSessionView(View):
                 session_set.weight = float(value)
                 session_set.save()
 
-        # Mark the session as completed and set the end time
+        # Update set completion status
+        for key, value in request.POST.items():
+            if key.startswith('set_') and key.endswith('_completed'):
+                set_id = key.split('_')[1]
+                session_set = get_object_or_404(SessionSet, pk=set_id)
+                session_set.is_completed = value == 'on'  # Mark as completed if checked
+                session_set.save()
+
+        # Check and mark SessionExercises as completed
+        session_exercises = training_session.session_exercises.all()
+        for session_exercise in session_exercises:
+            all_sets_completed = session_exercise.session_sets.filter(is_completed=False).count() == 0
+            if all_sets_completed:
+                session_exercise.is_completed = True
+                session_exercise.save()
+
+        # Mark the training session as completed and set the end time
         training_session.is_completed = True
         training_session.end_time = timezone.now()
         training_session.save()
 
         return redirect('/')
+
 
 
 @csrf_exempt
